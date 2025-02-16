@@ -1,21 +1,32 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { githubApi } from "./githubApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import issueReducer from "./issuesSlice";
+import issuesReducer from "./issuesSlice";
 import repoReducer from "./repoSlice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const persistConfig = {
+  key: "issues",
+  storage,
+};
+
+const persistedIssuesReducer = persistReducer(persistConfig, issuesReducer);
 
 export const store = configureStore({
   reducer: {
-    [githubApi.reducerPath]: githubApi.reducer, // Добавляем RTK Query
-    issues: issueReducer, // Храним колонки с задачами
+    [githubApi.reducerPath]: githubApi.reducer,
+    issues: persistedIssuesReducer, 
     repo: repoReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(githubApi.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      githubApi.middleware
+    ),
 });
 
-// Позволяет автоматически обновлять данные при фокусе на странице
 setupListeners(store.dispatch);
 
+export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
