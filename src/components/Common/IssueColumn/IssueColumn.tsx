@@ -1,6 +1,6 @@
 import { Col } from "react-bootstrap";
 import { Issue } from "../../../redux/issuesSlice";
-import { useDrop, DropTargetMonitor } from "react-dnd"; // Добавил DropTargetMonitor для корректного типа monitor
+import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { moveIssue } from "../../../redux/issuesSlice";
 import IssueCard from "../IssueCard/IssueCard";
@@ -15,13 +15,16 @@ const IssueColumn = ({ title, issues }: IssueColumnProps) => {
 
   const [{ isOver }, dropRef] = useDrop({
     accept: "ISSUE",
-    drop: (item: { id: number; from: keyof typeof IssuesState }) => {
+    drop: (item: { id: number; from: string }) => {
+      console.log("Dropped item:", item); // Логируем перетаскиваемый объект
+      console.log("Target column:", title.toLowerCase());
+
       dispatch(
         moveIssue({
           id: item.id,
           from: item.from,
-          to: title.toLowerCase() as keyof typeof IssuesState,
-        }) // Привёл к типу keyof typeof IssuesState
+           to: title.toLowerCase(),
+        })
       );
     },
     collect: (monitor: DropTargetMonitor) => ({
