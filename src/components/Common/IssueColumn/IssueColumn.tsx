@@ -6,7 +6,7 @@ import { moveIssue } from "../../../redux/issuesSlice";
 import IssueCard from "../IssueCard/IssueCard";
 
 interface IssueColumnProps {
-  title: string;
+  title: "ToDo" | "In Progress" | "Done"; // Заголовки в удобочитаемом формате
   issues: Issue[];
 }
 
@@ -15,15 +15,22 @@ const IssueColumn = ({ title, issues }: IssueColumnProps) => {
 
   const [{ isOver }, dropRef] = useDrop({
     accept: "ISSUE",
-    drop: (item: { id: number; from: string }) => {
-      console.log("Dropped item:", item); // Логируем перетаскиваемый объект
-      console.log("Target column:", title.toLowerCase());
+    drop: (item: { id: number; from: keyof IssuesState }) => {
+      console.log("Dropped item:", item);
+      console.log("Target column:", title); // title теперь точно "ToDo" | "In Progress" | "Done"
+
+      // Маппинг заголовков колонок в ключи Redux-хранилища
+      const columnMap: Record<string, keyof IssuesState> = {
+        ToDo: "todo",
+        "In Progress": "inProgress",
+        Done: "done",
+      };
 
       dispatch(
         moveIssue({
           id: item.id,
           from: item.from,
-           to: title.toLowerCase(),
+          to: columnMap[title], // Передаем правильное название
         })
       );
     },

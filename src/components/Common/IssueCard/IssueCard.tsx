@@ -7,9 +7,13 @@ interface IssueCardProps {
 }
 
 const IssueCard = ({ issue }: IssueCardProps) => {
+  // Определяем, из какой колонки эта задача
+  const fromColumn: "todo" | "inProgress" | "done" =
+    issue.state === "closed" ? "done" : issue.assignee ? "inProgress" : "todo";
+
   const [{ isDragging }, dragRef] = useDrag({
     type: "ISSUE",
-    item: { id: issue.id, from: issue.state },
+    item: { id: issue.id, from: fromColumn }, // Передаем правильное from
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),

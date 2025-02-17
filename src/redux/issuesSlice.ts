@@ -58,22 +58,25 @@ const issuesSlice = createSlice({
       console.log("moveIssue action:", action.payload);
       console.log("Current state:", JSON.parse(JSON.stringify(state)));
 
-      // Маппинг статусов на ключи состояния
+      // Маппинг заголовков в ключи Redux-хранилища
       const columnMap: Record<string, keyof IssuesState> = {
-        open: "todo",
+        todo: "todo",
+        "to do": "todo", // Учитываем разные вариации написания
+        inprogress: "inProgress",
         "in progress": "inProgress",
-        closed: "done",
+        done: "done",
       };
 
-      const fromColumn = columnMap[from];
-      const toColumn = columnMap[to];
+      // Приводим from и to к нужному формату
+      const fromColumn = columnMap[from.toLowerCase()];
+      const toColumn = columnMap[to.toLowerCase()];
 
       if (!fromColumn || !toColumn) {
-        console.error(`Invalid column mapping: from="${from}", to="${to}"`);
+        console.error(`🚨 Invalid column names: from="${from}", to="${to}"`);
         return;
       }
 
-      console.log(`Moving issue ${id} from ${fromColumn} to ${toColumn}`);
+      console.log(`✅ Moving issue ${id} from ${fromColumn} to ${toColumn}`);
 
       const issueIndex = state[fromColumn].findIndex(
         (issue) => issue.id === id
@@ -81,7 +84,7 @@ const issuesSlice = createSlice({
 
       if (issueIndex === -1) {
         console.error(
-          `Issue with id ${id} not found in column "${fromColumn}".`
+          `❌ Issue with id ${id} not found in column "${fromColumn}".`
         );
         return;
       }
