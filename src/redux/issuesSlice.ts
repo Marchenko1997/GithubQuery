@@ -35,6 +35,9 @@ const issuesSlice = createSlice({
   name: "issues",
   initialState,
   reducers: {
+    /**
+     * 📌 Устанавливает изначальные задачи, полученные из API.
+     */
     setIssues: (state, action: PayloadAction<Issue[]>) => {
       state.todo = action.payload.filter(
         (issue) => !issue.assignee && issue.state === "open"
@@ -45,52 +48,44 @@ const issuesSlice = createSlice({
       state.done = action.payload.filter((issue) => issue.state === "closed");
     },
 
+    /**
+     * 📌 Перемещение задачи между колонками
+     */
     moveIssue: (
       state,
-      action: PayloadAction<{
-        id: number;
-        from: string;
-        to: string;
-      }>
+      action: PayloadAction<{ id: number; to: keyof IssuesState }>
     ) => {
-      const { id, from, to } = action.payload;
+      const { id, to } = action.payload;
 
       console.log("moveIssue action:", action.payload);
       console.log("Current state:", JSON.parse(JSON.stringify(state)));
 
-      // Маппинг заголовков в ключи Redux-хранилища
-      const columnMap: Record<string, keyof IssuesState> = {
-        todo: "todo",
-        "to do": "todo", // Учитываем разные вариации написания
-        inprogress: "inProgress",
-        "in progress": "inProgress",
-        done: "done",
-      };
+      // 🟢 Находим, в какой колонке находится задача
+      let fromColumn: keyof IssuesState | null = null;
+      let movedIssue: Issue | undefined;
 
-      // Приводим from и to к нужному формату
-      const fromColumn = columnMap[from.toLowerCase()];
-      const toColumn = columnMap[to.toLowerCase()];
+      Object.keys(state).forEach((key) => {
+        const column = key as keyof IssuesState;
+        const index = state[column].findIndex((issue) => issue.id === id);
+        if (index !== -1) {
+          fromColumn = column;
+          [movedIssue] = state[column].splice(index, 1);
+        }
+      });
 
-      if (!fromColumn || !toColumn) {
-        console.error(`🚨 Invalid column names: from="${from}", to="${to}"`);
+      if (!fromColumn || !movedIssue) {
+        console.error(`❌ Issue with id ${id} not found.`);
         return;
       }
 
-      console.log(`✅ Moving issue ${id} from ${fromColumn} to ${toColumn}`);
+      console.log(`✅ Moving issue ${id} from ${fromColumn} to ${to}`);
 
-      const issueIndex = state[fromColumn].findIndex(
-        (issue) => issue.id === id
-      );
+      // 🔄 Обновляем `state` и `assignee` в зависимости от целевой колонки
+      movedIssue.state = to === "done" ? "closed" : "open";
+      movedIssue.assignee = to === "inProgress" ? { login: "user" } : null;
 
-      if (issueIndex === -1) {
-        console.error(
-          `❌ Issue with id ${id} not found in column "${fromColumn}".`
-        );
-        return;
-      }
-
-      const [movedIssue] = state[fromColumn].splice(issueIndex, 1);
-      state[toColumn].push(movedIssue);
+      // 🟢 Добавляем задачу в новую колонку
+      state[to].push(movedIssue);
     },
   },
 });
