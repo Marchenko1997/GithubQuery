@@ -14,12 +14,41 @@ export const githubApi = createApi({
   endpoints: (builder) => ({
     getIssues: builder.query({
       query: (repoUrl: string) => {
-        const [, owner, repo] = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || [];
+        const [, owner, repo] =
+          repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || [];
         if (!owner || !repo) throw new Error("Invalid URL format");
+
         return `/repos/${owner}/${repo}/issues?per_page=100`;
       },
+
+      // 🛠️ Преобразуем API-ответ в удобный формат
+      transformResponse: (response: any[]) => {
+        return response.map((issue) => ({
+          id: issue.id,
+          title: issue.title,
+          number: issue.number,
+          created_at: issue.created_at,
+          comments: issue.comments,
+          user: issue.user.login,
+        }));
+      },
+    }),
+    getRepoInfo: builder.query({
+      query: (repoUrl: string) => {
+        const [, owner, repo] =
+          repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || [];
+        if (!owner || !repo) throw new Error("Invalid URL format");
+        return `/repos/${owner}/${repo}`;
+      },
+      transformResponse: (response: any) => ({
+        fullName: response.full_name,
+        htmlUrl: response.html_url,
+        owner: response.owner.login,
+        ownerUrl: response.owner.html_url,
+        stars: response.stargazers_count,
+      }),
     }),
   }),
 });
 
-export const { useGetIssuesQuery } = githubApi;
+export const { useGetIssuesQuery, useGetRepoInfoQuery } = githubApi;

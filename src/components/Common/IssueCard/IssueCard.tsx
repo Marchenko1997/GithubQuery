@@ -1,5 +1,6 @@
 import { Draggable } from "@hello-pangea/dnd";
 import { Card } from "react-bootstrap";
+import { formatDistanceToNow } from "date-fns";
 import { Issue } from "../../../redux/issuesSlice";
 
 interface IssueCardProps {
@@ -15,7 +16,7 @@ const IssueCard = ({ issue, index }: IssueCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="mb-2"
+          className="mb-2 p-2"
           style={{
             opacity: snapshot.isDragging ? 0.5 : 1,
             cursor: "grab",
@@ -24,7 +25,15 @@ const IssueCard = ({ issue, index }: IssueCardProps) => {
         >
           <Card.Body>
             <Card.Title>{issue.title}</Card.Title>
-            <Card.Text>#{issue.id}</Card.Text>
+            <Card.Text>
+              <strong>#{issue.number}</strong> opened{" "}
+              {formatDistanceToNow(new Date(issue.created_at), {
+                addSuffix: true,
+              })}
+            </Card.Text>
+            <Card.Text>
+              <strong>{issue.user?.login}</strong> | Comments: {issue.comments}
+            </Card.Text>
           </Card.Body>
         </Card>
       )}
