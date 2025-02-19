@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Issue, RepoInfo, IssueResponse, RepoResponse } from "./types"; // ✅ Импортируем типы
+import { Issue, RepoInfo, IssueResponse, RepoResponse } from "./types"; 
 
 const BASE_URL = "https://api.github.com";
 

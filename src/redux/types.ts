@@ -9,7 +9,7 @@ export interface Issue {
   assignee?: { login: string } | null;
 }
 
-// 🔹 Интерфейс для информации о репозитории
+
 export interface RepoInfo {
   fullName: string;
   htmlUrl: string;
@@ -18,7 +18,7 @@ export interface RepoInfo {
   stars: number;
 }
 
-// 🔹 Оригинальные структуры ответов от GitHub API
+
 export interface IssueResponse {
   id: number;
   title: string;
@@ -51,7 +51,7 @@ export interface RepoInfo {
   stars: number;
 }
 
-// 🔹 Интерфейс для состояния информации о репозитории
+
 export interface RepoInfoState {
   fullName: string;
   htmlUrl: string;
@@ -60,7 +60,7 @@ export interface RepoInfoState {
   stars: number;
 }
 
-// 🔹 Интерфейс для состояния текущего репозитория
+
 export interface RepoState {
   url: string;
 }

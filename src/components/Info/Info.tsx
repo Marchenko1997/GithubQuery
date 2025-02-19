@@ -24,10 +24,12 @@ const Info = ({ repoUrl }: { repoUrl: string }) => {
 
   return (
     <div className="mb-3">
+      <a href={repoInfo.ownerUrl} target="_blank" rel="noopener noreferrer">
+        <strong>{repoInfo.owner}</strong>
+      </a>{" "}
+      &gt;{" "}
       <a href={repoInfo.htmlUrl} target="_blank" rel="noopener noreferrer">
-        <strong>
-          {repoInfo.owner} &gt; {repoInfo.fullName}
-        </strong>
+        <strong>{repoInfo.fullName}</strong>
       </a>
       <span> ⭐ {repoInfo.stars.toLocaleString()} stars</span>
     </div>

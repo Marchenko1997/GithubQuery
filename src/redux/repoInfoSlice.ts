@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RepoInfoState } from "./types"; // ✅ Импортируем тип
+import { RepoInfoState } from "./types";
 
 const initialState: RepoInfoState = {
   fullName: "",

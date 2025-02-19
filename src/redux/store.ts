@@ -12,14 +12,29 @@ const persistConfig = {
   storage,
 };
 
+const repoInfoPersistConfig = {
+  key: "repoInfo", 
+  storage,
+};
+
+const repoPersistConfig = {
+  key: "repo",
+  storage,
+};
+
 const persistedIssuesReducer = persistReducer(persistConfig, issuesReducer);
+const persistedRepoInfoReducer = persistReducer(
+  repoInfoPersistConfig,
+  repoInfoReducer
+); 
+const persistedRepoReducer = persistReducer(repoPersistConfig, repoReducer);
 
 export const store = configureStore({
   reducer: {
     [githubApi.reducerPath]: githubApi.reducer,
     issues: persistedIssuesReducer,
-    repo: repoReducer,
-    repoInfo: repoInfoReducer,
+    repo: persistedRepoReducer,
+    repoInfo: persistedRepoInfoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(
