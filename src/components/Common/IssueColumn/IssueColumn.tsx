@@ -1,5 +1,5 @@
 import { Col } from "react-bootstrap";
-import { Issue } from "../../../redux/issuesSlice";
+import { Issue } from "../../../redux/types";
 import { Droppable } from "@hello-pangea/dnd";
 import IssueCard from "../IssueCard/IssueCard";
 

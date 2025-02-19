@@ -1,7 +1,7 @@
 import { Draggable } from "@hello-pangea/dnd";
 import { Card } from "react-bootstrap";
 import { formatDistanceToNow } from "date-fns";
-import { Issue } from "../../../redux/issuesSlice";
+import { Issue } from "../../../redux/types";
 
 interface IssueCardProps {
   issue: Issue;

@@ -1,20 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface Issue {
-  id: number;
-  title: string;
-  number: number;
-  user: { login: string };
-  comments: number;
-  state: "open" | "closed";
-  assignee?: { login: string } | null;
-}
-
-export interface IssuesState {
-  todo: Issue[];
-  inProgress: Issue[];
-  done: Issue[];
-}
+import { Issue, IssuesState } from "./types"
 
 const initialState: IssuesState = {
   todo: [],

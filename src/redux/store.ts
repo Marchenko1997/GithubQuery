@@ -5,6 +5,7 @@ import issuesReducer from "./issuesSlice";
 import repoReducer from "./repoSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import repoInfoReducer from "./repoInfoSlice"; 
 
 const persistConfig = {
   key: "issues",
@@ -16,8 +17,9 @@ const persistedIssuesReducer = persistReducer(persistConfig, issuesReducer);
 export const store = configureStore({
   reducer: {
     [githubApi.reducerPath]: githubApi.reducer,
-    issues: persistedIssuesReducer, 
+    issues: persistedIssuesReducer,
     repo: repoReducer,
+    repoInfo: repoInfoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(

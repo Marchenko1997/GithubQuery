@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Issue, RepoInfo, IssueResponse, RepoResponse } from "./types"; // ✅ Импортируем типы
 
 const BASE_URL = "https://api.github.com";
 
@@ -12,8 +13,8 @@ export const githubApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getIssues: builder.query({
-      query: (repoUrl: string) => {
+    getIssues: builder.query<Issue[], string>({
+      query: (repoUrl) => {
         const [, owner, repo] =
           repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || [];
         if (!owner || !repo) throw new Error("Invalid URL format");
@@ -21,26 +22,29 @@ export const githubApi = createApi({
         return `/repos/${owner}/${repo}/issues?per_page=100`;
       },
 
-      // 🛠️ Преобразуем API-ответ в удобный формат
-      transformResponse: (response: any[]) => {
+      transformResponse: (response: IssueResponse[]): Issue[] => {
         return response.map((issue) => ({
           id: issue.id,
           title: issue.title,
           number: issue.number,
           created_at: issue.created_at,
           comments: issue.comments,
-          user: issue.user.login,
+          user: { login: issue.user.login },
+          state: issue.state,
+          assignee: issue.assignee ? { login: issue.assignee.login } : null,
         }));
       },
     }),
-    getRepoInfo: builder.query({
-      query: (repoUrl: string) => {
+
+    getRepoInfo: builder.query<RepoInfo, string>({
+      query: (repoUrl) => {
         const [, owner, repo] =
           repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || [];
         if (!owner || !repo) throw new Error("Invalid URL format");
         return `/repos/${owner}/${repo}`;
       },
-      transformResponse: (response: any) => ({
+
+      transformResponse: (response: RepoResponse): RepoInfo => ({
         fullName: response.full_name,
         htmlUrl: response.html_url,
         owner: response.owner.login,
