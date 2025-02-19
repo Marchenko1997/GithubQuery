@@ -14,7 +14,7 @@ const SearchBar = () => {
   });
 
   const handleLoadIssues = () => {
-    if (data) dispatch(setIssues(data));
+    if (data) dispatch(setIssues({ repoUrl, issues: data })); // Теперь передаём объект с repoUrl
   };
 
   return (

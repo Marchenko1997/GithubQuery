@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface RepoState {
-  url: string;
-}
+import { RepoState } from "./types"; 
 
 const initialState: RepoState = {
   url: "",

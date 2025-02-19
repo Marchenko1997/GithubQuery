@@ -1,7 +1,7 @@
 import Info from "./components/Info/Info";
 import { Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { selectRepoUrl, selectIssuesState } from "./redux/selectors"; 
+import { selectRepoUrl, selectIssuesState } from "./redux/selectors";
 import AppProvider from "./providers/AppProvider";
 import IssueColumn from "./components/Common/IssueColumn/IssueColumn";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -9,6 +9,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 const App = () => {
   const issues = useSelector(selectIssuesState);
   const repoUrl = useSelector(selectRepoUrl);
+  const repoIssues = issues[repoUrl] || { todo: [], inProgress: [], done: [] }; // Защита от undefined
 
   return (
     <AppProvider>
@@ -17,13 +18,13 @@ const App = () => {
         <SearchBar />
         {repoUrl && <Info repoUrl={repoUrl} />}
         <Row>
-          <IssueColumn title="ToDo" issues={issues.todo} id="todo" />
+          <IssueColumn title="ToDo" issues={repoIssues.todo} id="todo" />
           <IssueColumn
             title="In Progress"
-            issues={issues.inProgress}
+            issues={repoIssues.inProgress}
             id="inProgress"
           />
-          <IssueColumn title="Done" issues={issues.done} id="done" />
+          <IssueColumn title="Done" issues={repoIssues.done} id="done" />
         </Row>
       </Container>
     </AppProvider>

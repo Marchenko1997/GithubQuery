@@ -9,7 +9,6 @@ export interface Issue {
   assignee?: { login: string } | null;
 }
 
-
 export interface RepoInfo {
   fullName: string;
   htmlUrl: string;
@@ -17,7 +16,6 @@ export interface RepoInfo {
   ownerUrl: string;
   stars: number;
 }
-
 
 export interface IssueResponse {
   id: number;
@@ -43,14 +41,9 @@ export interface IssuesState {
   done: Issue[];
 }
 
-export interface RepoInfo {
-  fullName: string;
-  htmlUrl: string;
-  owner: string;
-  ownerUrl: string;
-  stars: number;
+export interface IssuesByRepo {
+  [repoUrl: string]: IssuesState;
 }
-
 
 export interface RepoInfoState {
   fullName: string;
@@ -59,7 +52,6 @@ export interface RepoInfoState {
   ownerUrl: string;
   stars: number;
 }
-
 
 export interface RepoState {
   url: string;

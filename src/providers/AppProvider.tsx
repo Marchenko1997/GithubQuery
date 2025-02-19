@@ -1,7 +1,8 @@
 import React from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { moveIssue, reorderIssues } from "../redux/issuesSlice";
+import { selectRepoUrl } from "../redux/selectors";
 
 interface AppProviderProps {
   children: React.ReactNode;
@@ -9,29 +10,26 @@ interface AppProviderProps {
 
 const AppProvider = ({ children }: AppProviderProps) => {
   const dispatch = useDispatch();
+  const repoUrl = useSelector(selectRepoUrl); // Получаем текущий репозиторий
 
   const handleDragEnd = (result: DropResult) => {
-    console.log("🛑 Drag End Event", result);
-
-    if (!result.destination) return;
+    if (!result.destination || !repoUrl) return;
 
     const { source, destination } = result;
 
     if (source.droppableId === destination.droppableId) {
-      console.log(`♻ Reordering within ${source.droppableId}`);
       dispatch(
         reorderIssues({
+          repoUrl,
           column: source.droppableId as "todo" | "inProgress" | "done",
           fromIndex: source.index,
           toIndex: destination.index,
         })
       );
     } else {
-      console.log(
-        `🔄 Moving from ${source.droppableId} to ${destination.droppableId}`
-      );
       dispatch(
         moveIssue({
+          repoUrl,
           id: parseInt(result.draggableId, 10),
           from: source.droppableId as "todo" | "inProgress" | "done",
           to: destination.droppableId as "todo" | "inProgress" | "done",

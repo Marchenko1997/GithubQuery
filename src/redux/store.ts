@@ -5,7 +5,7 @@ import issuesReducer from "./issuesSlice";
 import repoReducer from "./repoSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import repoInfoReducer from "./repoInfoSlice"; 
+import repoInfoReducer from "./repoInfoSlice";
 
 const persistConfig = {
   key: "issues",
@@ -13,7 +13,7 @@ const persistConfig = {
 };
 
 const repoInfoPersistConfig = {
-  key: "repoInfo", 
+  key: "repoInfo",
   storage,
 };
 
@@ -26,7 +26,7 @@ const persistedIssuesReducer = persistReducer(persistConfig, issuesReducer);
 const persistedRepoInfoReducer = persistReducer(
   repoInfoPersistConfig,
   repoInfoReducer
-); 
+);
 const persistedRepoReducer = persistReducer(repoPersistConfig, repoReducer);
 
 export const store = configureStore({
