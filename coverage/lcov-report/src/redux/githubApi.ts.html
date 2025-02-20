@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/18</span>
+                <span class='fraction'>10/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>3/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>3/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/15</span>
+                <span class='fraction'>10/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -131,18 +131,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,19 +188,19 @@ export const githubApi = createApi({
   reducerPath: "githubApi",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
-    prepareHeaders: <span class="fstat-no" title="function not covered" >(h</span>eaders) =&gt; {
-<span class="cstat-no" title="statement not covered" >      headers.set("Accept", "application/vnd.github.v3+json");</span>
-<span class="cstat-no" title="statement not covered" >      return headers;</span>
+    prepareHeaders: (headers) =&gt; {
+      headers.set("Accept", "application/vnd.github.v3+json");
+      return headers;
     },
   }),
   endpoints: (builder) =&gt; ({
     getIssues: builder.query&lt;Issue[], string&gt;({
-      query: <span class="fstat-no" title="function not covered" >(r</span>epoUrl) =&gt; {
+      query: (repoUrl) =&gt; {
         const [, owner, repo] =
-<span class="cstat-no" title="statement not covered" >          repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || [];</span>
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!owner || !repo) <span class="cstat-no" title="statement not covered" >throw new Error("Invalid URL format");</span></span>
+          repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/) || <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!owner || !repo) <span class="cstat-no" title="statement not covered" >throw new Error("Invalid URL format");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return `/repos/${owner}/${repo}/issues?per_page=100`;</span>
+        return `/repos/${owner}/${repo}/issues?per_page=100`;
       },
 &nbsp;
       transformResponse: <span class="fstat-no" title="function not covered" >(r</span>esponse: IssueResponse[]): Issue[] =&gt; {
@@ -244,7 +244,7 @@ export const { useGetIssuesQuery, useGetRepoInfoQuery } = githubApi;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-02-19T19:41:23.004Z
+                at 2025-02-20T18:35:57.222Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

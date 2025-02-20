@@ -1,6 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "./test-utils";
 import IssueColumn from "../components/Common/IssueColumn/IssueColumn";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 import { Issue } from "../redux/types";
 
 const mockIssues: Issue[] = [
@@ -8,7 +10,7 @@ const mockIssues: Issue[] = [
     id: 1,
     title: "Issue 1",
     number: 101,
-    created_at: "",
+    created_at: "2024-02-20T12:34:56Z", // Добавили корректную дату
     comments: 0,
     user: { login: "user1" },
     state: "open",
@@ -17,7 +19,7 @@ const mockIssues: Issue[] = [
     id: 2,
     title: "Issue 2",
     number: 102,
-    created_at: "",
+    created_at: "2024-02-21T09:15:30Z", // Добавили корректную дату
     comments: 0,
     user: { login: "user2" },
     state: "open",
@@ -25,7 +27,11 @@ const mockIssues: Issue[] = [
 ];
 
 test("рендер списка задач", async () => {
-  await render(<IssueColumn title="ToDo" issues={mockIssues} id="todo" />);
+  render(
+    <Provider store={store}>
+      <IssueColumn title="ToDo" issues={mockIssues} id="todo" />
+    </Provider>
+  );
 
   await waitFor(() => {
     expect(screen.getByText(/Issue 1/i)).toBeInTheDocument();
