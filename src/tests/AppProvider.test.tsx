@@ -9,7 +9,7 @@ const mockIssue: Issue = {
   id: 1,
   title: "Issue 1",
   number: 101,
-  created_at: "2024-02-20T12:34:56Z", // Добавили корректную дату
+  created_at: "2024-02-20T12:34:56Z",
   comments: 0,
   user: { login: "user1" },
   state: "open",
@@ -26,9 +26,7 @@ test("перемещение задач через Drag & Drop", async () => {
     render(<App />);
   });
 
-  await waitFor(() => {
-    expect(screen.getByText(/Issue 1/i)).toBeInTheDocument();
-  });
+  expect(await screen.findByText(/Issue 1/i)).toBeInTheDocument();
 
   const issueElement = screen.getByText(/Issue 1/i);
   const inProgressColumn = screen.getByText(/In Progress/i)?.parentElement;
