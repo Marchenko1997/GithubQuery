@@ -1,8 +1,9 @@
 import "@testing-library/jest-dom";
-import { render, screen} from "./test-utils";
+import { render, screen } from "./test-utils";
 import IssueColumn from "../components/Common/IssueColumn/IssueColumn";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { DragDropContext } from "@hello-pangea/dnd";
 import { Issue } from "../redux/types";
 
 const mockIssues: Issue[] = [
@@ -29,7 +30,9 @@ const mockIssues: Issue[] = [
 test("рендер списка задач", async () => {
   render(
     <Provider store={store}>
-      <IssueColumn title="ToDo" issues={mockIssues} id="todo" />
+      <DragDropContext onDragEnd={() => {}}>
+        <IssueColumn title="ToDo" issues={mockIssues} id="todo" />
+      </DragDropContext>
     </Provider>
   );
 
