@@ -5,16 +5,23 @@ import {
   screen,
   fireEvent,
   waitFor,
+  act, // 🔥 Добавляем act сюда
 } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
-import { act } from "react";
 
+
+export { screen, fireEvent, waitFor, act }; 
+
+// Функция для рендера с redux store
 const customRender = async (ui: ReactNode, options?: RenderOptions) => {
   await act(async () => {
     rtlRender(<Provider store={store}>{ui}</Provider>, options);
   });
 };
 
-export * from "@testing-library/react";
-export { customRender as render, screen, fireEvent, waitFor };
+
+export { customRender as render };
+
+
+import "@testing-library/jest-dom";

@@ -24,10 +24,10 @@ const IssueColumn = ({ title, issues, id }: IssueColumnProps) => {
           }}
         >
           <h4>{title}</h4>
-          {issues.map((issue, index) => (
+          {issues?.map((issue, index) => (
             <IssueCard key={issue.id} issue={issue} index={index} />
           ))}
-          {provided.placeholder} {/* Это нужно для работы DnD */}
+          {provided.placeholder} 
         </Col>
       )}
     </Droppable>

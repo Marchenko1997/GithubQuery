@@ -9,7 +9,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 const App = () => {
   const issues = useSelector(selectIssuesState);
   const repoUrl = useSelector(selectRepoUrl);
-  const repoIssues = issues[repoUrl] || { todo: [], inProgress: [], done: [] }; // Защита от undefined
+  const repoIssues = issues[repoUrl] || { todo: [], inProgress: [], done: [] }; 
 
   return (
     <AppProvider>

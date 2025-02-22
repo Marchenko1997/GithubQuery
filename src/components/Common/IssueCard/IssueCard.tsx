@@ -9,6 +9,7 @@ interface IssueCardProps {
 }
 
 const IssueCard = ({ issue, index }: IssueCardProps) => {
+   console.log("🔍 IssueCard рендерится:", issue, "Index:", index);
   return (
     <Draggable draggableId={issue.id.toString()} index={index}>
       {(provided, snapshot) => (

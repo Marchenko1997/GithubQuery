@@ -10,7 +10,7 @@ interface AppProviderProps {
 
 const AppProvider = ({ children }: AppProviderProps) => {
   const dispatch = useDispatch();
-  const repoUrl = useSelector(selectRepoUrl); // Получаем текущий репозиторий
+  const repoUrl = useSelector(selectRepoUrl); 
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination || !repoUrl) return;
