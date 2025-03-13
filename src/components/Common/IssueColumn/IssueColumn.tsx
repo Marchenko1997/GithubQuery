@@ -21,13 +21,17 @@ const IssueColumn = ({ title, issues, id }: IssueColumnProps) => {
             backgroundColor: snapshot.isDraggingOver
               ? "#f0f0f0"
               : "transparent",
+            flex: 1, 
+            minWidth: "300px", 
+            maxWidth: "400px",
+            margin: "15px 10px 0 10px", 
           }}
         >
           <h4>{title}</h4>
           {issues?.map((issue, index) => (
             <IssueCard key={issue.id} issue={issue} index={index} />
           ))}
-          {provided.placeholder} 
+          {provided.placeholder}
         </Col>
       )}
     </Droppable>

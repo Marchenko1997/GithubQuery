@@ -18,6 +18,7 @@ const Info = ({ repoUrl }: { repoUrl: string }) => {
     }
   }, [data, error, dispatch]);
 
+
   if (isLoading) return <Spinner animation="border" />;
   if (error || !repoInfo.fullName)
     return <p className="text-danger">Failed to load repo info</p>;
